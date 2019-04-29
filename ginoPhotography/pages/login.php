@@ -1,4 +1,12 @@
-<?php session_start() ?>
+<?php session_start();
+
+$conn = mysqli_connect("localhost", "root", "", "photography_db", 3307);
+
+if (mysqli_connect_errno()) {
+    echo "Error: Could not connect to database. Please try again later";
+    exit;
+}
+?>
 
 <!doctype html>
 <html lang="en">
@@ -28,28 +36,28 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.php">Home</a>
+                    <a class="nav-link" href="../index.php">Home</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="pages/biography.php">About</a>
+                    <a class="nav-link" href="biography.php">About</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Gallery
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="pages/bandw.php">Black & White</a>
+                        <a class="dropdown-item" href="bandw.php">Black & White</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="pages/landscape.php">Landscapes</a>
-                        <a class="dropdown-item" href="pages/portrait.php">Portraits</a>
+                        <a class="dropdown-item" href="landscape.php">Landscapes</a>
+                        <a class="dropdown-item" href="portrait.php">Portraits</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pages/subscribe.php">Subscribe</a>
+                    <a class="nav-link" href="subscribe.php">Subscribe</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pages/contact.php">Contact</a>
+                    <a class="nav-link" href="contact.php">Contact</a>
                 </li>
             </ul>
 
@@ -59,7 +67,7 @@
             </form>
 
             <?php
-            if ((isset($_SESSION['email'])) || (isset($_SESSION['password']))) { ?>
+            if (isset($_SESSION['email'])) { /* If  session was created... */ ?>
 
                 <div class="nav-item dropdown my-2 my-lg-0">
                     <a class="nav-link dropdown-toggle text-dark" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -68,8 +76,8 @@
                     <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right">
                         <div class="text-center px-4 py-3">
                             <p>Hello <b> <?php echo "$_SESSION[email]" ?></b></p>
-                            <form method="post">
-                                <input type="button" class="btn btn-dark" value="Logout" name="logout">
+                            <form method="post" action="login.php">
+                                <input type="submit" class="btn btn-dark" value="Logout" name="logout">
                             </form>
                         </div>
                     </div>
@@ -77,48 +85,18 @@
 
                 <?php logout();
             } else {
-                login();
+                /* session not created */
+                loginTab();
             } ?>
         </div>
     </nav>
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-6">
-                <form class="px-4 py-3" action="login.php" method="POST">
-                    <div class="form-group">
-                        <label for="txtEmail">Email address</label>
-                        <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="email@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="txtPass">Password</label>
-                        <input type="password" class="form-control" id="txtPass" name="txtPass" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="rememberMe" id="rememberMe">
-                            <label class="form-check-label" for="rememberMe">
-                                Remember me
-                            </label>
-                        </div>
-                    </div>
-                    <input type="submit" class="btn btn-dark" value="Log in" name="submit">
-                </form>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="signUp.php">New around here? Sign up</a>
-                <a class="dropdown-item" href="forgot.php">Forgot password?</a>
-            </div>
+
             <div class="col-sm-6">
 
                 <?php
-
-                $conn = mysqli_connect("localhost", "root", "", "photography_db", 3307);
-
-                if (mysqli_connect_errno()) {
-                    echo "Error: Could not connect to database. Please try again later";
-                    exit;
-                }
-
                 if (isset($_POST['submit'])) {
 
                     if ((!isset($_POST['txtEmail'])) || (!isset($_POST['txtPass']))) {
@@ -126,8 +104,6 @@
                     } else {
                         $email = $_POST['txtEmail'];
                         $password = $_POST['txtPass'];
-
-                        // if ((isset($_SESSION['email'])) && (isset($_SESSION['password']))) { }
 
 
                         $query = "SELECT COUNT(*) FROM tblclient WHERE email = '$email' and password = sha1('$password')"; // hashed password present
@@ -141,7 +117,6 @@
 
                             // create session
                             $_SESSION['email'] = $email;
-                            $_SESSION['password'] = $password;
 
                             // visitor's name and password combination are correct
                             echo "<h1>Login Successful.</h1><p>Welcome back to my website!</p>";
@@ -150,10 +125,16 @@
                             // visitor's name and password combination are incorrect.
                             echo "<h1>Login failed.</h1><p>Your credentials are incorrect.</p>";
                         }
-                    }
+                        ?>
+                    </div>
+
+                    <?php
+                    loginForm(); // loginForm() has its own column.
                 }
-                ?>
-            </div>
+            } else if (isset($_POST['logout'])) {
+                logout();
+            }
+            ?>
         </div>
     </div>
 
@@ -164,15 +145,24 @@
     <?php /* functions */
     function logout()
     {
+
         if (isset($_POST['logout'])) {
             $_SESSION = array();
-            session_destroy();
-            header("Location: ../index.php");
-            die();
-        }
-    }
+            session_destroy(); ?>
 
-    function login()
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1>You have successfully logged out.</h1>
+                    <p>Please refresh the page so that changes will be affected.</p>
+                </div>
+            </div>
+
+
+        <?php }
+} ?>
+
+    <?php
+    function loginTab()
     {
         ?>
         <div class="nav-item dropdown my-2 my-lg-0">
@@ -204,6 +194,34 @@
                 <a class="dropdown-item" href="forgot.php">Forgot password?</a>
             </div>
         </div>
+    <?php }
+function loginForm()
+{ ?>
+        <div class="col-sm-6">
+            <form class="px-4 py-3" action="login.php" method="POST">
+                <div class="form-group">
+                    <label for="txtEmail">Email address</label>
+                    <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="txtPass">Password</label>
+                    <input type="password" class="form-control" id="txtPass" name="txtPass" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="rememberMe" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">
+                            Remember me
+                        </label>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-dark" value="Log in" name="submit">
+            </form>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="signUp.php">New around here? Sign up</a>
+            <a class="dropdown-item" href="forgot.php">Forgot password?</a>
+        </div>
+
     <?php } ?>
 
     <!-- Optional JavaScript -->
