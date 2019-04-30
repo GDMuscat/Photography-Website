@@ -1,13 +1,4 @@
-<?php session_start();
-
-$conn = mysqli_connect("localhost", "root", "", "photography_db", 3307);
-
-if (mysqli_connect_errno()) {
-    echo "Error: Could not connect to database. Please try again later";
-    exit;
-}
-
-?>
+<?php session_start(); ?>
 
 <!doctype html>
 <html lang="en">
@@ -54,10 +45,10 @@ if (mysqli_connect_errno()) {
                         <a class="dropdown-item" href="portrait.php">Portraits</a>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="subscribe.php">Subscribe</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="contact.php">Contact</a>
                 </li>
             </ul>
@@ -97,9 +88,9 @@ if (mysqli_connect_errno()) {
 
             <div class="col-md-6">
 
-                <h3>Feel free to contact me and ask me anything!</h3>
+                <h3>Create an account</h3>
 
-                <form method="POST" action="pages/success.php">
+                <form method="POST" action="signUp.php">
                     <div class="form-group row mt-4">
                         <label for="firstName" class="col-sm-2 col-form-label">First name</label>
                         <div class="col-sm-10">
@@ -122,6 +113,13 @@ if (mysqli_connect_errno()) {
                     </div>
 
                     <div class="form-group row">
+                        <label for="town" class="col-sm-2 col-form-label">Town:</label>
+                        <div class="col-sm-10">
+                            <input type="tel" class="form-control" name="town" id="town" placeholder="New Jersey" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label for="txtEmail" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
                             <input type="email" class="form-control" name="txtEmail" id="txtEmail" placeholder="Email" required>
@@ -129,27 +127,79 @@ if (mysqli_connect_errno()) {
                     </div>
 
                     <div class="form-group row">
+                        <label for="txtPassword" class="col-sm-2 col-form-label">Password</label>
                         <div class="col-sm-10">
-                            <button type="submit" class="btn btn-dark">Submit</button>
+                            <input type="password" class="form-control" name="txtPassword" id="txtPassword" placeholder="Password" required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <input type="submit" value="Submit" name="submit" class="btn btn-dark">
                         </div>
                     </div>
                 </form>
             </div>
 
-            <div class="col-md-5 text-justify">
-                <h3>Contact</h3>
-                <p>If you would like to contact me, ask me any questions or anythings, then please fill in your details and I will get back to you as soon as
-                    possible.</p>
+            <div class="col-md text-justify">
+                <h3>Register</h3>
+                <p>By registering to our my website, you will be able to benefit from certain privelages such as commenting, and even rating each individual photo.</p>
+                <?php
+                if (isset($_POST['submit'])) {
+                    insertInto();
+                }
+                ?>
             </div>
         </div>
     </div>
 
-    <footer class="mt-4 bg-dark text-center text-white">
+    <footer class=" mt-4 bg-dark text-center text-white">
         <div class="py-2">Website developed by <u>Gabriel Muscat Mills</u> - All rights reserved</div>
     </footer>
 
 
     <?php /* functions */
+
+    function insertInto()
+    {
+        $conn = mysqli_connect("localhost", "root", "", "photography_db", 3307);
+
+        if (mysqli_connect_errno()) {
+            echo "Error: Could not connect to database. Please try again later";
+            exit;
+        }
+
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $mobileNo = $_POST['mobileNo'];
+        $town = $_POST['town'];
+        $email = $_POST['txtEmail'];
+        $password = $_POST['txtPassword'];
+
+        // Check if email or Mobile No. already exist
+        $query = "SELECT COUNT(*) FROM tblclient WHERE mobileNo = '$mobileNo' OR email = '$email'";
+        $result = mysqli_query($conn, $query) or die("Error in query:1 " . mysqli_error($conn));
+
+        $row = mysqli_fetch_row($result);
+        $count = $row[0];
+
+        // if a duplicate exists
+        if ($count > 0) {
+            echo "<div class='col-md alert alert-danger' role='alert'>
+                    <h3>Error!</h3>
+                    <p>Mobile number and/or email address already exist. Please enter new credentials.</p>
+                </div>";
+        } else {
+            $query = "INSERT INTO `tblclient` (`firstName`, `lastName`, `mobileNo`, `email`, `password`) VALUES ( '$firstName',  '$lastName',  '$mobileNo',  '$email', SHA1('$password'))";
+            $result = mysqli_query($conn, $query) or die("Error in query: " . mysqli_error($conn));
+            echo "<div class= 'col-md alert alert-success' role='alert'>
+                    <h3>Success!</h3>
+                    <p>Your account has been successfully registered. Welcome to my website!</p>
+                </div>";
+        }
+    }
+
 
     function loginTab()
     {

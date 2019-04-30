@@ -18,7 +18,8 @@ if (mysqli_connect_errno()) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- Optional CSS -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -30,7 +31,8 @@ if (mysqli_connect_errno()) {
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Gino Photography</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -44,7 +46,8 @@ if (mysqli_connect_errno()) {
                     <a class="nav-link" href="biography.php">About</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         Gallery
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -70,19 +73,20 @@ if (mysqli_connect_errno()) {
             <?php
             if (isset($_SESSION['email'])) { /* If  session was created... */ ?>
 
-                <div class="nav-item dropdown my-2 my-lg-0">
-                    <a class="nav-link dropdown-toggle text-dark" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Logout
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right">
-                        <div class="text-center px-4 py-3">
-                            <p>Hello <b> <?php echo "$_SESSION[email]" ?></b></p>
-                            <form method="post" action="login.php">
-                                <input type="submit" class="btn btn-dark" value="Logout" name="logout">
-                            </form>
-                        </div>
+            <div class="nav-item dropdown my-2 my-lg-0">
+                <a class="nav-link dropdown-toggle text-dark" href="" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Logout
+                </a>
+                <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right">
+                    <div class="text-center px-4 py-3">
+                        <p>Hello <b> <?php echo "$_SESSION[email]" ?></b></p>
+                        <form method="post" action="processLogin.php">
+                            <input type="submit" class="btn btn-dark" value="Logout" name="logout">
+                        </form>
                     </div>
                 </div>
+            </div>
 
             <?php } else {
             /* session not created */
@@ -94,32 +98,47 @@ if (mysqli_connect_errno()) {
 
     <div class="container-fluid">
         <div class="row text-justify">
-            <div class="col-8">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae ipsum aliquet, tristique risus a,
-                    tempus arcu. Nam eleifend diam sit amet convallis iaculis. Nam dignissim nisi tortor, nec pharetra
-                    dui ornare non. Aenean malesuada sit amet erat vel bibendum. Aliquam eros erat, egestas quis eros
-                    ut, scelerisque rutrum mi. Praesent aliquet elit sed velit ultricies pulvinar. Curabitur efficitur
-                    ante metus, ut mollis enim egestas ut. Nullam finibus laoreet ullamcorper. Duis consequat ex id
-                    faucibus blandit. Pellentesque quam tortor, tincidunt sit amet mi iaculis, interdum ullamcorper
-                    odio. Nunc sit amet erat a quam auctor ornare. Phasellus sem lorem, viverra et pellentesque sit
-                    amet, blandit eu ante. Cras sit amet convallis lorem, id pellentesque dolor. Sed a egestas lorem.
-                </p>
+            <div class="col-sm-2">
+                <img src="../images/gino.jpg" alt="photographer" class="img-fluid">
             </div>
-            <div class="col-4">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae ipsum aliquet, tristique risus a,
-                    tempus arcu. Nam eleifend diam sit amet convallis iaculis. Nam dignissim nisi tortor, nec pharetra
-                    dui ornare non. Aenean malesuada sit amet erat vel bibendum. Aliquam eros erat, egestas quis eros
-                    ut, scelerisque rutrum mi. Praesent aliquet elit sed velit ultricies pulvinar. Curabitur efficitur
-                    ante metus, ut mollis enim egestas ut. Nullam finibus laoreet ullamcorper. Duis consequat ex id
-                    faucibus blandit. Pellentesque quam tortor, tincidunt sit amet mi iaculis, interdum ullamcorper
-                    odio. Nunc sit amet erat a quam auctor ornare. Phasellus sem lorem, viverra et pellentesque sit
-                    amet, blandit eu ante. Cras sit amet convallis lorem, id pellentesque dolor. Sed a egestas lorem.
-                </p>
+            <div class="col-sm-10">
+                <div class="col-sm">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae ipsum aliquet, tristique risus
+                        a,
+                        tempus arcu. Nam eleifend diam sit amet convallis iaculis. Nam dignissim nisi tortor, nec
+                        pharetra
+                        dui ornare non. Aenean malesuada sit amet erat vel bibendum. Aliquam eros erat, egestas quis
+                        eros
+                        ut, scelerisque rutrum mi. Praesent aliquet elit sed velit ultricies pulvinar. Curabitur
+                        efficitur
+                        ante metus, ut mollis enim egestas ut. Nullam finibus laoreet ullamcorper. Duis consequat ex id
+                        faucibus blandit. Pellentesque quam tortor, tincidunt sit amet mi iaculis, interdum ullamcorper
+                        odio. Nunc sit amet erat a quam auctor ornare. Phasellus sem lorem, viverra et pellentesque sit
+                        amet, blandit eu ante. Cras sit amet convallis lorem, id pellentesque dolor. Sed a egestas
+                        lorem.
+                    </p>
+                </div>
+                <div class="col-sm">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae ipsum aliquet, tristique risus
+                        a,
+                        tempus arcu. Nam eleifend diam sit amet convallis iaculis. Nam dignissim nisi tortor, nec
+                        pharetra
+                        dui ornare non. Aenean malesuada sit amet erat vel bibendum. Aliquam eros erat, egestas quis
+                        eros
+                        ut, scelerisque rutrum mi. Praesent aliquet elit sed velit ultricies pulvinar. Curabitur
+                        efficitur
+                        ante metus, ut mollis enim egestas ut. Nullam finibus laoreet ullamcorper. Duis consequat ex id
+                        faucibus blandit. Pellentesque quam tortor, tincidunt sit amet mi iaculis, interdum ullamcorper
+                        odio. Nunc sit amet erat a quam auctor ornare. Phasellus sem lorem, viverra et pellentesque sit
+                        amet, blandit eu ante. Cras sit amet convallis lorem, id pellentesque dolor. Sed a egestas
+                        lorem.
+                    </p>
+                </div>
             </div>
         </div>
 
-        <div class="row text-justify">
-            <div class="col-12">
+        <div class="row text-justify mt-5">
+            <div class="col">
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae ipsum aliquet, tristique risus a,
                     tempus arcu. Nam eleifend diam sit amet convallis iaculis. Nam dignissim nisi tortor, nec pharetra
                     dui
@@ -155,35 +174,37 @@ if (mysqli_connect_errno()) {
     function loginTab()
     {
         ?>
-        <div class="nav-item dropdown my-2 my-lg-0">
-            <a class="nav-link dropdown-toggle text-dark" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Login
-            </a>
-            <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right">
-                <form class="px-4 py-3" action="login.php" method="POST">
-                    <div class="form-group">
-                        <label for="txtEmail">Email address</label>
-                        <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="email@example.com">
+    <div class="nav-item dropdown my-2 my-lg-0">
+        <a class="nav-link dropdown-toggle text-dark" href="" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Login
+        </a>
+        <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right">
+            <form class="px-4 py-3" action="processLogin.php" method="POST">
+                <div class="form-group">
+                    <label for="txtEmail">Email address</label>
+                    <input type="email" class="form-control" id="txtEmail" name="txtEmail"
+                        placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="txtPass">Password</label>
+                    <input type="password" class="form-control" id="txtPass" name="txtPass" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="rememberMe" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">
+                            Remember me
+                        </label>
                     </div>
-                    <div class="form-group">
-                        <label for="txtPass">Password</label>
-                        <input type="password" class="form-control" id="txtPass" name="txtPass" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="rememberMe" id="rememberMe">
-                            <label class="form-check-label" for="rememberMe">
-                                Remember me
-                            </label>
-                        </div>
-                    </div>
-                    <input type="submit" class="btn btn-dark" value="Log in" name="submit">
-                </form>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="signUp.php">New around here? Sign up</a>
-                <a class="dropdown-item" href="forgot.php">Forgot password?</a>
-            </div>
+                </div>
+                <input type="submit" class="btn btn-dark" value="Log in" name="submit">
+            </form>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="signUp.php">New around here? Sign up</a>
+            <a class="dropdown-item" href="forgot.php">Forgot password?</a>
         </div>
+    </div>
     <?php } ?>
 
 
@@ -191,11 +212,14 @@ if (mysqli_connect_errno()) {
     <script src="js/script.js"></script>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
     </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
 </body>
 

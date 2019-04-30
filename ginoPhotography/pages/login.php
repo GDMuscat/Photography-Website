@@ -67,23 +67,8 @@ if (mysqli_connect_errno()) {
             </form>
 
             <?php
-            if (isset($_SESSION['email'])) { /* If  session was created... */ ?>
-
-                <div class="nav-item dropdown my-2 my-lg-0">
-                    <a class="nav-link dropdown-toggle text-dark" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Logout
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right">
-                        <div class="text-center px-4 py-3">
-                            <p>Hello <b> <?php echo "$_SESSION[email]" ?></b></p>
-                            <form method="post" action="login.php">
-                                <input type="submit" class="btn btn-dark" value="Logout" name="logout">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <?php logout();
+            if (isset($_SESSION['email'])) { /* If  session was created... */
+                logout();
             } else {
                 /* session not created */
                 loginTab();
@@ -92,74 +77,27 @@ if (mysqli_connect_errno()) {
     </nav>
 
     <div class="container-fluid">
-        <div class="row">
-
-            <div class="col-sm-6">
-
-                <?php
-                if (isset($_POST['submit'])) {
-
-                    if ((!isset($_POST['txtEmail'])) || (!isset($_POST['txtPass']))) {
-                        echo "Both values must be submitted.";
-                    } else {
-                        $email = $_POST['txtEmail'];
-                        $password = $_POST['txtPass'];
-
-
-                        $query = "SELECT COUNT(*) FROM tblclient WHERE email = '$email' and password = sha1('$password')"; // hashed password present
-                        $result = mysqli_query($conn, $query) or die("Error in query: " . mysqli_error($conn));
-
-                        $row = mysqli_fetch_row($result);
-                        $count = $row[0];
-
-                        if ($count > 0) {
-
-
-                            // create session
-                            $_SESSION['email'] = $email;
-
-                            // visitor's name and password combination are correct
-                            echo "<h1>Login Successful.</h1><p>Welcome back to my website!</p>";
-                        } else {
-
-                            // visitor's name and password combination are incorrect.
-                            echo "<h1>Login failed.</h1><p>Your credentials are incorrect.</p>";
-                        }
-                        ?>
-                    </div>
-
-                    <?php
-                    loginForm(); // loginForm() has its own column.
-                }
-            } else if (isset($_POST['logout'])) {
-                logout();
-            }
-            ?>
-        </div>
+        <?php
+        if (isset($_SESSION['fillBothMessage'])) {
+            echo "$_SESSION[fillBothMessage]";
+        } else if (isset($_SESSION['loginMessage'])) {
+            echo "$_SESSION[loginMessage]";
+            header("Refresh:3; url=../index.php");
+        } else if (isset($_SESSION['incorrect'])) {
+            echo "$_SESSION[incorrect]";
+        } else if (isset($_SESSION['logoutMessage'])) {
+            echo "$_SESSION[logoutMessage]";
+            session_destroy(); // destroy session
+            header("Refresh:3; url=../index.php");
+        } else {
+            echo "Error! unexpected event occurred!";
+        }
+        ?>
     </div>
 
     <footer class="mt-4 bg-dark text-center text-white">
         <div class="py-2">Website developed by <u>Gabriel Muscat Mills</u> - All rights reserved</div>
     </footer>
-
-    <?php /* functions */
-    function logout()
-    {
-
-        if (isset($_POST['logout'])) {
-            $_SESSION = array();
-            session_destroy(); ?>
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <h1>You have successfully logged out.</h1>
-                    <p>Please refresh the page so that changes will be affected.</p>
-                </div>
-            </div>
-
-
-        <?php }
-} ?>
 
     <?php
     function loginTab()
@@ -170,7 +108,7 @@ if (mysqli_connect_errno()) {
                 Login
             </a>
             <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right">
-                <form class="px-4 py-3" action="login.php" method="POST">
+                <form class="px-4 py-3" action="processLogin.php" method="POST">
                     <div class="form-group">
                         <label for="txtEmail">Email address</label>
                         <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="email@example.com">
@@ -195,6 +133,25 @@ if (mysqli_connect_errno()) {
             </div>
         </div>
     <?php }
+
+function logout()
+{
+    ?>
+        <div class="nav-item dropdown my-2 my-lg-0">
+            <a class="nav-link dropdown-toggle text-dark" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Logout
+            </a>
+            <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right">
+                <div class="text-center px-4 py-3">
+                    <p>Hello <b> <?php echo "$_SESSION[email]" ?></b></p>
+                    <form method="post" action="processLogin.php">
+                        <input type="submit" class="btn btn-dark" value="Logout" name="logout">
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php
+}
 function loginForm()
 { ?>
         <div class="col-sm-6">

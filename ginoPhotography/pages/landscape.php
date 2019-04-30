@@ -76,7 +76,7 @@ if (mysqli_connect_errno()) {
                     <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right">
                         <div class="text-center px-4 py-3">
                             <p>Hello <b> <?php echo "$_SESSION[email]" ?></b></p>
-                            <form method="post" action="login.php">
+                            <form method="post" action="processLogin.php">
                                 <input type="submit" class="btn btn-dark" value="Logout" name="logout">
                             </form>
                         </div>
@@ -222,7 +222,7 @@ if (mysqli_connect_errno()) {
                 Login
             </a>
             <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right">
-                <form class="px-4 py-3" action="login.php" method="POST">
+                <form class="px-4 py-3" action="processLogin.php" method="POST">
                     <div class="form-group">
                         <label for="txtEmail">Email address</label>
                         <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="email@example.com">
