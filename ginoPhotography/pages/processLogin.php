@@ -1,3 +1,6 @@
+<!-- This page is intended to process the session and the login/logout features.
+The user does not need to see this page -->
+
 <?php
 session_start();
 
@@ -27,7 +30,7 @@ if ((!isset($_POST['txtEmail'])) || (!isset($_POST['txtPass']))) {
     // clear all sessions
     $_SESSION = array();
 
-    $query = "SELECT COUNT(*) FROM tblclient WHERE email = '$email' and password = sha1('$password')"; // hashed password present
+    $query = "SELECT COUNT(*) FROM tblClient WHERE email = '$email' and password = sha1('$password')"; // hashed password present
     $result = mysqli_query($conn, $query) or die("Error in query: " . mysqli_error($conn));
 
     $row = mysqli_fetch_row($result);
@@ -94,37 +97,3 @@ if (isset($_POST['logout'])) {
 
     header('location: login.php');
 }
-
-function loginForm()
-{ ?>
-    <div class="col-sm-6">
-        <form class="px-4 py-3" action="processLogin.php" method="POST">
-            <div class="form-group">
-                <label for="txtEmail">Email address</label>
-                <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="email@example.com">
-            </div>
-            <div class="form-group">
-                <label for="txtPass">Password</label>
-                <input type="password" class="form-control" id="txtPass" name="txtPass" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" name="rememberMe" id="rememberMe">
-                    <label class="form-check-label" for="rememberMe">
-                        Remember me
-                    </label>
-                </div>
-            </div>
-            <input type="submit" class="btn btn-dark" value="Log in" name="submit">
-        </form>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="signUp.php">New around here? Sign up</a>
-        <a class="dropdown-item" href="forgot.php">Forgot password?</a>
-    </div>
-
-    <div class='col-sm-6'>
-        <h1>Login failed</h1>
-        <p>Please enter your correct credntials.</p>
-    </div>
-
-<?php } ?>
