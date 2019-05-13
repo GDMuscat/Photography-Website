@@ -226,35 +226,54 @@ require_once("pages/menu.php");
         </div>
     </div>
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">
-        Launch demo modal
-    </button>
+    <?php if (isset($_SESSION['email'])) { ?>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Comments</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalComments">
+            Comments
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalComments" tabindex="-1" role="dialog" aria-labelledby="modalCommentsTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalCommentsTitle">Comments</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <div class="modal-body">
+
+                        <?php
+
+                        // Get All comments
+                        $query = "SELECT * from tblcomment";
+                        $result = mysqli_query($conn, $query) or die("Error in query: " . mysqli_error($conn));
+
+                        // Printing the comments
+                        while ($row = mysqli_fetch_row($result)) {
+                            echo "<p>$_SESSION[email] - $row[1]</p>";
+                        }
+                        ?>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <form action="index.php" method="post">
+                            <input type="button" class="btn btn-primary" value="Add comment" name="btnAdd" id="btnAdd">
+                        </form>
+                        <?php
+                        if (isset($_POST['btnAdd'])) { 
+                            // ADD MORE CODE HERE
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-
+    <?php } ?>
 
 </div>
 
