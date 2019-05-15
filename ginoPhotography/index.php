@@ -257,17 +257,13 @@ require_once("pages/menu.php");
                         }
                         ?>
 
+                        <form action="pages/processLogin.php" method="post">
+                            <input type="text" class="form-control" name="txtComment" id="txtComment" placeholder="Add comment" required>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <form action="index.php" method="post">
-                            <input type="button" class="btn btn-primary" value="Add comment" name="btnAdd" id="btnAdd">
+                        <input type="submit" class="btn btn-primary" value="Add comment" name="submitComment" id="submitComment">
                         </form>
-                        <?php
-                        if (isset($_POST['btnAdd'])) { 
-                            // ADD MORE CODE HERE
-                        }
-                        ?>
                     </div>
                 </div>
             </div>

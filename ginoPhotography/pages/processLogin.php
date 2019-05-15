@@ -1,4 +1,4 @@
-<!-- This page is intended to process the session and the login/logout features.
+<!-- This page is intended to process the session and the login/logout and other features.
 The user does not need to see this page -->
 
 <?php
@@ -97,3 +97,25 @@ if (isset($_POST['logout'])) {
 
     header('location: login.php');
 }
+
+if (isset($_POST['submitComment'])) {
+    $comment = $_POST['txtComment'];
+
+    // Get client id
+    $query = "SELECT * FROM `tblclient` WHERE `email` = '$_SESSION[email]'";
+    $result = mysqli_query($conn, $query) or die("<div class='alert alert-danger' role='alert'>Error in query: " . mysqli_error($conn) . "</div>");
+    $row = mysqli_fetch_row($result);
+    $cId = $row[0];
+
+    // Add comment
+    $query = "INSERT INTO `tblcomment` (`comment`, `clientId`) VALUES ('$comment', '$cId')";
+    $result = mysqli_query($conn, $query) or die("<div class='alert alert-danger' role='alert'>Error in query: " . mysqli_error($conn) . "</div>");
+
+    echo "<div class='alert alert-success' role='alert'>
+        The comment has been added!
+        </div>";
+    $comment = null;
+    header("Location: ../index.php");
+}
+
+?>
