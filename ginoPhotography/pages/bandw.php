@@ -227,7 +227,7 @@ require_once("menu.php");
         </div>
     </div>
 
-
+    <?php require_once("features.php") ?>
 
 </div>
 

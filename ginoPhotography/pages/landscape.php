@@ -120,43 +120,8 @@ require_once("menu.php");
         </div>
     </div>
 
+    <?php require_once("features.php") ?>
+
 </div>
 
-<?php /* functions */
-
-function loginTab()
-{
-    ?>
-    <div class="nav-item dropdown my-2 my-lg-0">
-        <a class="nav-link dropdown-toggle text-dark" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Login
-        </a>
-        <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right">
-            <form class="px-4 py-3" action="processLogin.php" method="POST">
-                <div class="form-group">
-                    <label for="txtEmail">Email address</label>
-                    <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="email@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="txtPass">Password</label>
-                    <input type="password" class="form-control" id="txtPass" name="txtPass" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" name="rememberMe" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">
-                            Remember me
-                        </label>
-                    </div>
-                </div>
-                <input type="submit" class="btn btn-dark" value="Log in" name="submit">
-            </form>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="signUp.php">New around here? Sign up</a>
-            <a class="dropdown-item" href="forgot.php">Forgot password?</a>
-        </div>
-    </div>
-<?php }
-
-require_once("footer.php");
-?>
+<?php require_once("footer.php"); ?>
